@@ -1,14 +1,14 @@
 package framework.steps;
 
+import framework.utils.TestData;
 import framework.utils.Variables;
 
-import org.jbehave.core.annotations.BeforeScenario;
-import org.jbehave.core.annotations.ScenarioType;
-
+import org.jbehave.core.annotations.BeforeStories;
 
 public class VariablesSteps {
-    @BeforeScenario(uponType = ScenarioType.ANY)
+    @BeforeStories
     public static void resetVariables() {
         Variables.reset();
+        TestData.getBaseApiUri();
     }
 }
