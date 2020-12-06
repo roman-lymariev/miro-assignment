@@ -1,31 +1,105 @@
 package framework.model.pojo;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Board {
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("sharingPolicy")
-    @Expose
+    @JsonProperty("type")
+    private String type;
+
+    @JsonProperty("viewLink")
+    private String viewLink;
+
+    @JsonProperty("description")
+    private String description;
+
+    @JsonProperty("createdAt")
+    private String createdAt;
+
+    @JsonProperty("picture")
+    private Object picture;
+
+    @JsonProperty("sharingPolicy")
     private SharingPolicy sharingPolicy;
 
-    public String getName() {
-        return name;
+    @JsonProperty("team")
+    private Team team;
+
+    @JsonProperty("currentUserConnection")
+    private CurrentUserConnection currentUserConnection;
+
+    @JsonProperty("createdBy")
+    private MiniUser createdBy;
+
+    @JsonProperty("modifiedAt")
+    private String modifiedAt;
+
+    @JsonProperty("modifiedBy")
+    private MiniUser modifiedBy;
+
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("id")
+    private String id;
+
+    @JsonProperty("owner")
+    private MiniUser owner;
+
+    public String getType() {
+        return type;
     }
 
-    public Board setName(String name) {
-        this.name = name;
-        return this;
+    public String getViewLink() {
+        return viewLink;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public Object getPicture() {
+        return picture;
     }
 
     public SharingPolicy getSharingPolicy() {
         return sharingPolicy;
     }
 
-    public Board setSharingPolicy(SharingPolicy sharingPolicy) {
-        this.sharingPolicy = sharingPolicy;
-        return this;
+    public Team getTeam() {
+        return team;
+    }
+
+    public CurrentUserConnection getCurrentUserConnection() {
+        return currentUserConnection;
+    }
+
+    public MiniUser getCreatedBy() {
+        return createdBy;
+    }
+
+    public String getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public MiniUser getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public MiniUser getOwner() {
+        return owner;
     }
 }

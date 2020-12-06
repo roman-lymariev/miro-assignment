@@ -43,16 +43,16 @@ public class Variables {
         }
     }
 
-    public static String getVariable(final String key) {
+    static String getVariable(final String key) {
         final String value = Serenity.sessionVariableCalled(key);
         return value == null ? "" : value;
     }
 
-    public static void setVariable(final String key, final String value) {
+    static void setVariable(final String key, final String value) {
         Serenity.setSessionVariable(key).to(value);
     }
 
-    public static void loadXml(final String filename) {
+    private static void loadXml(final String filename) {
         Properties props = new Properties();
         try {
             props.loadFromXML(ResourceHelper.getResourceAsStream(filename));

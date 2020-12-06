@@ -8,5 +8,6 @@ To facilitate better collaboration
 
 Scenario: create a board and a sticker as Rick
 
-Given a board 'Board' is created by Rick
+Given a board 'Board' is created
 Given user Rick logs in
+Given user opens newly created board by View Link

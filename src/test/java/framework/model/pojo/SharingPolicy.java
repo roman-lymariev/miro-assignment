@@ -1,16 +1,22 @@
 package framework.model.pojo;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
+import java.util.HashMap;
+import java.util.Map;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SharingPolicy {
-
-    @SerializedName("access")
-    @Expose
+    @JsonProperty("access")
     private Access access;
-    @SerializedName("teamAccess")
-    @Expose
+
+    @JsonProperty("teamAccess")
     private TeamAccess teamAccess;
+
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Access getAccess() {
         return access;

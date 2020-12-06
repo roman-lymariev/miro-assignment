@@ -8,7 +8,7 @@ import org.jbehave.core.annotations.Given;
 
 import static org.junit.Assert.assertTrue;
 
-public class LoginSteps extends BrowserSteps {
+public class UiSteps extends BrowserSteps {
     protected AnyPage anyPage;
     protected LoginPage loginPage;
 
@@ -25,8 +25,12 @@ public class LoginSteps extends BrowserSteps {
         assertTrue("Persona is not logged: ".concat(personaId), loginPage.isPersonaLogged(persona));
     }
 
-    @Given("creates a board")
-    public void createBoard() {
-        anyPage.evaluateJavascript("ctrl.newBoard.onClick($event)");
+    @Given("user opens newly created board by View Link")
+    public void deeplinkToViewBoard() {
+        anyPage.deeplinkTo(TestData.getBoardViewLink());
+    }
+
+    public void closeDriver() {
+        anyPage.getDriver().close();
     }
 }

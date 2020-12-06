@@ -4,14 +4,20 @@ import framework.utils.TestData;
 import framework.utils.Variables;
 
 import io.restassured.RestAssured;
+import org.jbehave.core.annotations.AfterScenario;
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.ScenarioType;
 
-public class SetupSteps {
+public class SetupTeardownSteps {
     @BeforeScenario(uponType = ScenarioType.ANY)
-    public static void resetVariables() {
+    public static void setup() {
         initTestData();
         initRestClient(TestData.getBaseApiUri());
+    }
+
+    @AfterScenario(uponType = ScenarioType.ANY)
+    public static void teardown() {
+        ApiSteps.deleteBoard();
     }
 
     private static void initTestData() {

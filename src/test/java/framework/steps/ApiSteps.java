@@ -1,41 +1,62 @@
 package framework.steps;
 
-import com.google.gson.Gson;
-import framework.model.Persona;
-import framework.model.pojo.Access;
-import framework.model.pojo.TeamAccess;
-import framework.model.pojo.Board;
-import framework.model.pojo.SharingPolicy;
+import framework.model.pojo.*;
 import framework.utils.TestData;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.jbehave.core.annotations.Given;
 
 import static io.restassured.RestAssured.given;
 
 public class ApiSteps {
-    private static final String ACCOUNT_ID_QUERY_PARAM = "accountId";
     private static final String AUTH_HEADER_NAME = "Authorization";
-    private static final String BOARD_ROUTE = "/boards";
+    private static final String BOARDS_ROUTE = "/boards";
+    private static final String DELETE_BOARD_ROUTE = "/boards/%s/trash";
 
-    @Given("a board '$boardName' is created by $persona")
-    public void createBoard(final String boardName, final String personaName) {
-        String creatorAccountrId = TestData.getPersonaByName(personaName).getAccountId();
-        Board newBoard = createBoardBody(boardName, Access.VIEW, TeamAccess.VIEW);
+    @Given("a board '$boardName' is created")
+    public void createBoard(final String boardName) {
+        CreateBoardBody newBoard = createBoardBody(boardName, Access.VIEW, TeamAccess.VIEW);
 
-        given()
+        Response response = given()
                 .contentType(ContentType.JSON)
-                .queryParam(ACCOUNT_ID_QUERY_PARAM, creatorAccountrId)
                 .header(AUTH_HEADER_NAME, TestData.getAuthorizationToken())
-                .body(new Gson().toJson(newBoard))
+                .body(newBoard)
                 .when()
-                .post(BOARD_ROUTE)
-                .then()
+                .post(BOARDS_ROUTE);
+
+        response.then()
                 .statusCode(HttpStatus.SC_CREATED);
+
+        //save for later use
+        Board board = response.getBody().as(Board.class);
+        TestData.setBoardId(
+                board.getId()
+        );
+        TestData.setBoardViewLink(
+                board.getViewLink()
+        );
     }
 
-    private Board createBoardBody(final String boardName, final Access generalAccess, final TeamAccess teamAccess) {
-        return new Board()
+    @Given("the board is deleted")
+    public static void deleteBoard() {
+        final String deleteBoardRoute = String
+                .format(DELETE_BOARD_ROUTE, TestData.getBoardId())
+                .replace("=", "%3D");
+
+        Response response = given()
+                .header(AUTH_HEADER_NAME, TestData.getAuthorizationToken())
+                .contentType(ContentType.JSON)
+                .when()
+                .post(deleteBoardRoute);
+
+        response
+                .then()
+                .statusCode(HttpStatus.SC_OK);
+    }
+
+    private CreateBoardBody createBoardBody(final String boardName, final Access generalAccess, final TeamAccess teamAccess) {
+        return new CreateBoardBody()
                 .setName(boardName)
                 .setSharingPolicy(
                         new SharingPolicy()
