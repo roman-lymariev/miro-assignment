@@ -1,4 +1,18 @@
 package framework.model.pojo;
 
-public class TeamAccess {
+public enum TeamAccess {
+    PRIVATE("private"),
+    VIEW("view"),
+    COMMENT("comment"),
+    EDIT("edit");
+
+    private String accessLevel;
+
+    TeamAccess(String accessLevel) {
+        this.accessLevel = accessLevel;
+    }
+
+    public String getAccessLevel() {
+        return accessLevel;
+    }
 }

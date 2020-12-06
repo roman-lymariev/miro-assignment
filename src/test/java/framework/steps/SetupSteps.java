@@ -3,12 +3,23 @@ package framework.steps;
 import framework.utils.TestData;
 import framework.utils.Variables;
 
-import org.jbehave.core.annotations.BeforeStories;
+import io.restassured.RestAssured;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.ScenarioType;
 
-public class VariablesSteps {
-    @BeforeStories
+public class SetupSteps {
+    @BeforeScenario(uponType = ScenarioType.ANY)
     public static void resetVariables() {
+        initTestData();
+        initRestClient(TestData.getBaseApiUri());
+    }
+
+    private static void initTestData() {
         Variables.reset();
-        TestData.getBaseApiUri();
+    }
+
+    private static void initRestClient(final String baseUri) {
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+        RestAssured.baseURI = baseUri;
     }
 }

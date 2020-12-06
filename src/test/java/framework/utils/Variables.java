@@ -11,7 +11,7 @@ import net.serenitybdd.core.Serenity;
 
 public class Variables {
 
-    private static String VARIABLES_PROPERTIES = "testdata.properties";
+    private static String TESTDATA_PROPS = "testdata.properties";
     private static String LOCALIZATION_PROPERTIES = "testdata.xml";
 
     /**
@@ -19,7 +19,7 @@ public class Variables {
      */
     public static void reset() {
         clear();
-        load(VARIABLES_PROPERTIES);
+        load(TESTDATA_PROPS);
     }
 
     private static void clear() {
