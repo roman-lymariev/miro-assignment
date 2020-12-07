@@ -4,7 +4,7 @@ import framework.utils.TestData;
 import framework.utils.Variables;
 
 import io.restassured.RestAssured;
-import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.AfterStories;
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.ScenarioType;
 
@@ -15,9 +15,9 @@ public class SetupTeardownSteps {
         initRestClient(TestData.getBaseApiUri());
     }
 
-    @AfterScenario(uponType = ScenarioType.ANY)
+    @AfterStories
     public static void teardown() {
-        ApiSteps.deleteBoard();
+        //ApiSteps.deleteBoard();  TODO: make it work
     }
 
     private static void initTestData() {

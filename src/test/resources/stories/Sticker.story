@@ -8,6 +8,8 @@ To facilitate better collaboration
 
 Scenario: create a board and a sticker as Rick
 
-Given a board 'Board' is created
-Given user Rick logs in
-Given user opens newly created board by View Link
+Given a shared board 'Board' is created
+And user Rick logs in
+And the board is opened by View Link
+When the user creates a sticker from the widget toolbar
+
