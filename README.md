@@ -38,11 +38,11 @@ not yet familiar aShot. Decided to take a bit of extra challenge and chosen aSho
 Otherwise I would have selected plain jUnit or TestNG. 
 
 ## Framework Composition
--- resources-filtered/testdata - to store test data separately from code
--- resources/stories - test scenarios written in Gherkin and stored in .story files. I prefer jBehave implementation. Stored in /resources/stories/
--- story - blank Java classes, one for each .story file. Allow jUnit test runner to pick and run corresponding .story files.
--- steps - stored in the /java/framework/steps/ folder. A glue code between Stories and PageObjects.
--- pages - PageObjects to interact with tested website via Selenium. Each PageObject represents one page/frame/other logical piece.
+- resources-filtered/testdata - to store test data separately from code
+- resources/stories - test scenarios written in Gherkin and stored in .story files. I prefer jBehave implementation. Stored in /resources/stories/
+- story - blank Java classes, one for each .story file. Allow jUnit test runner to pick and run corresponding .story files.
+- steps - stored in the /java/framework/steps/ folder. A glue code between Stories and PageObjects.
+- pages - PageObjects to interact with tested website via Selenium. Each PageObject represents one page/frame/other logical piece.
 
 
 ## The Task
@@ -56,9 +56,9 @@ During a sticker creation I decided to add color and text, even if it was not re
 The presence of the sticker on the second user board is verified by comparing a screenshot with baseline image.
 Quick and simple, the margin of difference helps to handle different shapes of sticker "shadow".
 
-POJOes: big pojo objects might look like an overkill, but they are actually auto-generated to save time.
-Steps: Most of steps are divided between broad API and UI categories for simplicity sake,
-BrowserSteps and SetupTeardownSteps pretty much speak for itself.
+- POJOes: big pojo objects might look like an overkill, but they are actually auto-generated to save time.
+- Steps: Most of steps are divided between broad API and UI categories for simplicity sake,
+- BrowserSteps and SetupTeardownSteps pretty much speak for itself.
 
 ## What would I improve next
 - implement Delete Board via API to cleanup after tests
