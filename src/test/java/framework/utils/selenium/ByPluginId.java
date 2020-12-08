@@ -15,7 +15,6 @@ public class ByPluginId extends By {
 
     @Override
     public List<WebElement> findElements(SearchContext context) {
-        List<WebElement> mockElements = context.findElements(By.xpath("//*[@data-plugin-id='" + dataPluginId + "']"));
-        return mockElements;
+        return context.findElements(By.xpath("//*[@data-plugin-id='" + dataPluginId + "']"));
     }
 }

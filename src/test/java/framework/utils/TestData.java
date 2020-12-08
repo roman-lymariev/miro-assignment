@@ -2,10 +2,7 @@ package framework.utils;
 
 import framework.model.Persona;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import static java.lang.String.format;
 

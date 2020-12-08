@@ -11,7 +11,14 @@ import java.awt.image.BufferedImage;
 
 public class BoardPage extends AnyPage {
     @FindBy(id = "active_users_layer")
-    protected WebElement activeUsersCanvas;
+    private WebElement activeUsersCanvas;
+
+    private final int A_SEC = 1000;
+
+    private final int POINT_1_X = 50;
+    private final int POINT_1_Y = 50;
+    private final int POINT_2_X = 200;
+    private final int POINT_2_Y = 200;
 
     public BoardPage(WebDriver driver) {
         super(driver);
@@ -34,41 +41,19 @@ public class BoardPage extends AnyPage {
 
     public void createGreenStickerWithText(final String text) {
         getLeftToolbar().createGreenSticker();
-        pauseFor(1000);
-        clickCanvasCoordinates(50, 50);
+        pauseFor(A_SEC);
+        clickCanvasCoordinates(POINT_1_X, POINT_1_Y);
         setText(text);
-        pauseFor(1000);
-        clickCanvasCoordinates(200, 200);
+        pauseFor(A_SEC);
+        clickCanvasCoordinates(POINT_2_X, POINT_2_Y);
     }
 
-    protected void clickCanvasCoordinates(final int x_offset, final int y_offset) {
+    protected void clickCanvasCoordinates(final int xOffset, final int yOffset) {
         Actions actions = new Actions(getDriver());
-        actions.moveToElement(activeUsersCanvas, x_offset, y_offset).click().perform();
-    }
-
-    protected void clickCanvasCenter() {
-        int x_offset = (getCanvasWidth() / 2);
-        int y_offset = (getCanvasHeight() / 2);
-
-        clickCanvasCoordinates(x_offset, y_offset);
-    }
-
-    protected void clickCanvasBottomCenter() {
-        int x_offset = (getCanvasWidth() / 2);
-        int y_offset = (getCanvasHeight() - 1);
-
-        clickCanvasCoordinates(x_offset, y_offset);
+        actions.moveToElement(activeUsersCanvas, xOffset, yOffset).click().perform();
     }
 
     protected void setText(final CharSequence... text) {
         getDriver().switchTo().activeElement().sendKeys(text);
-    }
-
-    private int getCanvasWidth() {
-        return Integer.parseInt(activeUsersCanvas.getAttribute("width"));
-    }
-
-    private int getCanvasHeight() {
-        return Integer.parseInt(activeUsersCanvas.getAttribute("height"));
     }
 }

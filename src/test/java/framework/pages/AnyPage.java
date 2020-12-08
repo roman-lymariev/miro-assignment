@@ -35,10 +35,6 @@ public class AnyPage extends PageObject {
         safeFluentWait().until(ExpectedConditions.elementToBeClickable(element));
     }
 
-    protected void waitUntilClickable(final By by) {
-        waitUntilClickable(getDriver().findElement(by));
-    }
-
     protected void waitUntilVisible(WebElement element) {
         safeFluentWait().until(ExpectedConditions.visibilityOf(element));
     }
@@ -55,43 +51,6 @@ public class AnyPage extends PageObject {
         waitUntilNotVisible(getDriver().findElement(by));
     }
 
-    // --- clicks ---
-    protected void clickWithAction(final WebElement element) {
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(element).click().perform();
-    }
-
-    protected void doubleClick(final WebElement element) {
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(element).doubleClick().perform();
-    }
-
-    protected void clickWithJS(final WebElement element) {
-        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
-        executor.executeScript("arguments[0].click();", element);
-    }
-
-    // --- sending keys and scrolling ---
-    protected void sendEnterToElement(WebElement element) {
-        element.sendKeys(Keys.ENTER);
-    }
-
-    protected void sendSpaceToElement(WebElement element) {
-        element.sendKeys(Keys.SPACE);
-    }
-
-    public void pageDown() {
-        getDriver().findElement(By.xpath("/*")).sendKeys(Keys.PAGE_DOWN);
-    }
-
-    protected void scrollElementIntoMiddle(WebElement element) {
-        String scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
-                + "var elementTop = arguments[0].getBoundingClientRect().top;"
-                + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
-
-        ((JavascriptExecutor) getDriver()).executeScript(scrollElementIntoMiddle, element);
-    }
-
     // --- page actions ---
     public void deeplinkTo(final String url) {
         if (url == null || url.isEmpty()) {
@@ -106,38 +65,9 @@ public class AnyPage extends PageObject {
         }
     }
 
-    public void waitForPageToLoad() {
-        new WebDriverWait(getDriver(), getSerenityTimeoutSec()).until(
-                webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
-    }
-
-    public void waitForPageUrl(final String uriFraction) {
-        waitForCondition().until(ExpectedConditions.urlContains(uriFraction));
-    }
-
-    public boolean currentUrlEndsWith(final String uriFraction) {
-        return getDriver().getCurrentUrl().endsWith(uriFraction);
-    }
-
-    public boolean currentUrlContains(final String uriFraction) {
-        return getDriver().getCurrentUrl().contains(uriFraction);
-    }
-
     // --- elements actions ---
     protected boolean isElementPresent(By by) {
         return !getDriver().findElements(by).isEmpty();
-    }
-
-    protected Select getSelectBy(By by) {
-        return new Select(getDriver().findElement(by));
-    }
-
-    protected boolean isCheckboxSet(WebElement checkbox) {
-        return checkbox.isSelected();
-    }
-
-    protected String getAngularElementText(WebElement element) {
-        return element.getAttribute("value");
     }
 
     private int getSerenityTimeoutSec() {

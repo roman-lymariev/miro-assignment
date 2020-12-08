@@ -10,7 +10,6 @@ import org.hamcrest.MatcherAssert;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
-import org.junit.Assert;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 
@@ -51,15 +50,6 @@ public class UiSteps extends BrowserSteps {
     @When("the user creates a sticker from the widget toolbar")
     public void createGreenSticker() {
         board.createGreenStickerWithText("Wubba Lubba Dub Dub!");
-    }
-
-    public void closeDriver() {
-        anyPage.getDriver().close();
-    }
-
-    @Then("screenshot is taken")
-    public void takeCanvasScreenshot() {
-        Serenity.takeScreenshot();
     }
 
     @Then("the sticker is displayed")

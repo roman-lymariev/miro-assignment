@@ -8,49 +8,48 @@ import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends AnyPage {
 
-  @FindBy(id = "email")
-  private WebElement loginInput;
+    @FindBy(id = "email")
+    private WebElement loginInput;
 
-  @FindBy(id = "password")
-  private WebElement passwordInput;
+    @FindBy(id = "password")
+    private WebElement passwordInput;
 
-  private By loginButtonBy = By.xpath("//button[@type='submit']");
+    private final By LOGIN_BUTTON_BY = By.xpath("//button[@type='submit']");
 
-  private static String SCRIPT_WITH_USER_INFO_XPATH_TEMPLATE = "//script[contains(., '%s')]";
+    private static final String SCRIPT_WITH_USER_INFO_XPATH_TEMPLATE = "//script[contains(., '%s')]";
 
-  public LoginPage(WebDriver driver) {
-    super(driver);
-  }
+    public LoginPage(WebDriver driver) {
+        super(driver);
+    }
 
-  public boolean isOpened() {
-    return isElementPresent(loginButtonBy);
-  }
+    public boolean isOpened() {
+        return isElementPresent(LOGIN_BUTTON_BY);
+    }
 
-  public void enterCredentials(Persona persona) {
-    enterCredentials(persona.getLogin(), persona.getPassword());
-  }
+    public void enterCredentials(Persona persona) {
+        enterCredentials(persona.getLogin(), persona.getPassword());
+    }
 
-  private void enterCredentials(final String login, final String password) {
-    waitFor(loginInput);
-    typeInto(loginInput, login);
-    typeInto(passwordInput, password);
-  }
+    private void enterCredentials(final String login, final String password) {
+        waitFor(loginInput);
+        typeInto(loginInput, login);
+        typeInto(passwordInput, password);
+    }
 
-  public void submitCredentials() {
-    getLoginButton().click();
-  }
+    public void submitCredentials() {
+        getLoginButton().click();
+    }
 
-  public boolean isPersonaLogged(Persona persona) {
-    String email = persona.getLogin();
-    return isElementPresent(
-        By.xpath(
-            String.format(SCRIPT_WITH_USER_INFO_XPATH_TEMPLATE, email)
-        )
-    );
-  }
+    public boolean isPersonaLogged(Persona persona) {
+        String email = persona.getLogin();
+        return isElementPresent(
+                By.xpath(
+                        String.format(SCRIPT_WITH_USER_INFO_XPATH_TEMPLATE, email)
+                )
+        );
+    }
 
-  private WebElement getLoginButton() {
-    return getDriver().findElement(loginButtonBy);
-  }
-
+    private WebElement getLoginButton() {
+        return getDriver().findElement(LOGIN_BUTTON_BY);
+    }
 }

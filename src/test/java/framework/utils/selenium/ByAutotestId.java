@@ -15,7 +15,6 @@ public class ByAutotestId extends By {
 
     @Override
     public List<WebElement> findElements(SearchContext context) {
-        List<WebElement> mockElements = context.findElements(By.xpath("//*[@data-autotest-id='" + dataAutomationId + "']"));
-        return mockElements;
+        return context.findElements(By.xpath("//*[@data-autotest-id='" + dataAutomationId + "']"));
     }
 }
