@@ -18,4 +18,4 @@ Scenario: join the board as Morty and check the sticker is displayed
 
 Given user Morty logs in
 When the user opens the board via View Link
-Then screenshot is taken
+Then the sticker is displayed

@@ -83,7 +83,7 @@ public class BrowserSteps {
         anyPage.getDriver().manage().window().setSize(getDimensionFromString(resolutionAsString));
     }
 
-    @Then("screenshot is taken")
+    //@Then("screenshot is taken")
     public void takeScreenshot() {
         Serenity.takeScreenshot();
     }

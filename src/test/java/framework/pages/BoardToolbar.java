@@ -27,7 +27,7 @@ public class BoardToolbar extends AnyPage {
     }
 
     private void clickNewStickerButton() {
-        waitUntilClickable(newStickerButton);
+        waitUntilVisible(newStickerButton);
         getDriver().findElement(newStickerButton).click();
     }
 

@@ -2,6 +2,11 @@ package framework.utils;
 
 import framework.model.Persona;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 import static java.lang.String.format;
 
 public class TestData {
@@ -16,6 +21,8 @@ public class TestData {
 
     private static final String BOARD_VIEW_LINK = "board.viewlink";
     private static final String BOARD_ID = "board.id";
+
+    private static final String BASELINE_SCREENSHOTS_PATH = "baseline_screenshots/";
 
     //Paths
     public static String getLoginUri() {
@@ -55,6 +62,15 @@ public class TestData {
 
     private static String getPersonaPassword(final String personaName) {
         return get(format(PASSWORD_TEMPLATE, personaName));
+    }
+
+    // --- images ---
+    public static BufferedImage getExpectedImage(final String filename) {
+        return ResourceHelper.readImageFromFile(BASELINE_SCREENSHOTS_PATH.concat(filename));
+    }
+
+    public static void saveExpectedImageToFile(BufferedImage bufferedImage, final String filename) {
+        ResourceHelper.writeImageToFile(bufferedImage, BASELINE_SCREENSHOTS_PATH.concat(filename));
     }
 
     // --- Generated test data

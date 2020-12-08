@@ -4,6 +4,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.WebDriver;
+import ru.yandex.qatools.ashot.AShot;
+import ru.yandex.qatools.ashot.coordinates.WebDriverCoordsProvider;
+
+import java.awt.image.BufferedImage;
 
 public class BoardPage extends AnyPage {
     @FindBy(id = "active_users_layer")
@@ -21,11 +25,20 @@ public class BoardPage extends AnyPage {
         return getLeftToolbar().isRendered();
     }
 
+    public BufferedImage getCanvasImage() {
+        return new AShot()
+                .coordsProvider(new WebDriverCoordsProvider())
+                .takeScreenshot(getDriver())
+                .getImage();
+    }
+
     public void createGreenStickerWithText(final String text) {
         getLeftToolbar().createGreenSticker();
+        pauseFor(1000);
         clickCanvasCoordinates(50, 50);
         setText(text);
-        clickCanvasCoordinates(100, 100);
+        pauseFor(1000);
+        clickCanvasCoordinates(200, 200);
     }
 
     protected void clickCanvasCoordinates(final int x_offset, final int y_offset) {

@@ -5,15 +5,27 @@ import framework.pages.AnyPage;
 import framework.pages.BoardPage;
 import framework.pages.LoginPage;
 import framework.utils.TestData;
+import net.serenitybdd.core.Serenity;
+import org.hamcrest.MatcherAssert;
 import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
+import org.junit.Assert;
+import ru.yandex.qatools.ashot.comparison.ImageDiff;
+import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 
+import java.awt.image.BufferedImage;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertTrue;
 
 public class UiSteps extends BrowserSteps {
     protected AnyPage anyPage;
     protected LoginPage loginPage;
     protected BoardPage board;
+
+    private static final int ACCEPTABLE_SHADOWS_DIFF = 3000;
 
     @Given("user $personaId logs in")
     public void loginAs(final String personaId) {
@@ -43,5 +55,23 @@ public class UiSteps extends BrowserSteps {
 
     public void closeDriver() {
         anyPage.getDriver().close();
+    }
+
+    @Then("screenshot is taken")
+    public void takeCanvasScreenshot() {
+        Serenity.takeScreenshot();
+    }
+
+    @Then("the sticker is displayed")
+    public void takeCanvasScreenshotAndCompareWithPrevious() {
+        Serenity.takeScreenshot();
+
+        BufferedImage actualImage = board.getCanvasImage();
+        BufferedImage expectedImage = TestData.getExpectedImage("sticker_is_displayed.png");
+
+        ImageDiff imageDifference = new ImageDiffer().makeDiff(expectedImage, actualImage);
+
+        //Compare images with allowed level of difference
+        MatcherAssert.assertThat(imageDifference.getDiffSize(), is(lessThan(ACCEPTABLE_SHADOWS_DIFF)));
     }
 }

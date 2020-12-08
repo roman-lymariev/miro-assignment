@@ -4,7 +4,9 @@ import framework.utils.TestData;
 import framework.utils.Variables;
 
 import io.restassured.RestAssured;
+import net.serenitybdd.core.Serenity;
 import org.jbehave.core.annotations.AfterStories;
+import org.jbehave.core.annotations.AfterStory;
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.ScenarioType;
 
