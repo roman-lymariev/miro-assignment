@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.WebDriver;
 
 public class BoardPage extends AnyPage {
-    @FindBy(id = "active_users_layer")    //canvasContainer")
+    @FindBy(id = "active_users_layer")
     protected WebElement activeUsersCanvas;
 
     public BoardPage(WebDriver driver) {
@@ -15,6 +15,10 @@ public class BoardPage extends AnyPage {
 
     public BoardToolbar getLeftToolbar() {
         return new BoardToolbar(getDriver());
+    }
+
+    public boolean isRendered() {
+        return getLeftToolbar().isRendered();
     }
 
     public void createGreenStickerWithText(final String text) {

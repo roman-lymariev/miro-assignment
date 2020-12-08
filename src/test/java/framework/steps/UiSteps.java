@@ -32,6 +32,8 @@ public class UiSteps extends BrowserSteps {
     @When("the user opens the board via View Link")
     public void deeplinkToViewBoard() {
         anyPage.deeplinkTo(TestData.getBoardViewLink());
+
+        assertTrue("Board failed to render correctly", board.isRendered());
     }
 
     @When("the user creates a sticker from the widget toolbar")

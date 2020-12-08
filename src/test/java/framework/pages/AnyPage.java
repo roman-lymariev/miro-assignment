@@ -1,16 +1,16 @@
 package framework.pages;
 
-import framework.utils.TestData;
+import net.thucydides.core.ThucydidesSystemProperty;
 import net.thucydides.core.annotations.Managed;
+import net.thucydides.core.util.SystemEnvironmentVariables;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
 import net.serenitybdd.core.pages.PageObject;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.concurrent.TimeUnit;
 
 
 public class AnyPage extends PageObject {
@@ -18,36 +18,44 @@ public class AnyPage extends PageObject {
     @Managed
     private WebDriver driver;
 
+    private static int serenityTimeout;
+
     public AnyPage(final WebDriver driver) {
         super(driver);
 
         if (driver == null) {
             throw new NullPointerException("WebDriver is null.");
         }
+
+        serenityTimeout = getSerenityTimeoutSec();
     }
 
-    public void deeplinkTo(final String url) {
-        if (url == null || url.isEmpty()) {
-            throw new IllegalArgumentException("path is null or empty.");
-        }
-
-        getDriver().get(url);
-        final String currentUrl = getDriver().getCurrentUrl();
-
-        if (currentUrl == null || currentUrl.isEmpty()) {
-            throw new IllegalStateException("The current url is null or empty.");
-        }
-    }
-
-    protected void waitUntilClickable(final WebElement element, final int timeout) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), timeout);
-        wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.elementToBeClickable(element));
-    }
-
+    // --- safe fluent waits ---
     protected void waitUntilClickable(final WebElement element) {
-        waitUntilClickable(element, getCustomTimeoutMsec());
+        safeFluentWait().until(ExpectedConditions.elementToBeClickable(element));
     }
 
+    protected void waitUntilClickable(final By by) {
+        waitUntilClickable(getDriver().findElement(by));
+    }
+
+    protected void waitUntilVisible(WebElement element) {
+        safeFluentWait().until(ExpectedConditions.visibilityOf(element));
+    }
+
+    protected void waitUntilVisible(By by) {
+        waitUntilVisible(getDriver().findElement(by));
+    }
+
+    protected void waitUntilNotVisible(WebElement element) {
+        safeFluentWait().until(ExpectedConditions.invisibilityOf(element));
+    }
+
+    protected void waitUntilNotVisible(By by) {
+        waitUntilNotVisible(getDriver().findElement(by));
+    }
+
+    // --- clicks ---
     protected void clickWithAction(final WebElement element) {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(element).click().perform();
@@ -63,25 +71,7 @@ public class AnyPage extends PageObject {
         executor.executeScript("arguments[0].click();", element);
     }
 
-
-    protected void waitUntilVisible(final WebElement element, int timeoutInSeconds) {
-        new WebDriverWait(getDriver(), timeoutInSeconds).until(ExpectedConditions.visibilityOf(element));
-    }
-
-    protected void waitUntilVisible(WebElement element) {
-        waitUntilVisible(element, getCustomTimeoutMsec());
-    }
-
-    protected void waitUntilNotVisible(By by) {
-        new WebDriverWait(getDriver(), getCustomTimeoutMsec())
-                .until(ExpectedConditions.invisibilityOfElementLocated(by));
-    }
-
-    protected void waitUntilNotVisible(WebElement element) {
-        new WebDriverWait(getDriver(), getCustomTimeoutMsec())
-                .until(ExpectedConditions.invisibilityOf(element));
-    }
-
+    // --- sending keys and scrolling ---
     protected void sendEnterToElement(WebElement element) {
         element.sendKeys(Keys.ENTER);
     }
@@ -90,24 +80,11 @@ public class AnyPage extends PageObject {
         element.sendKeys(Keys.SPACE);
     }
 
-    protected void implicitlyWait(int milliseconds) {
-        getDriver().manage().timeouts().implicitlyWait(milliseconds, TimeUnit.MILLISECONDS);
-    }
-
-    protected void scrollToElementAndClick(WebElement element) {
-        scrollElementIntoMiddleByJS(element);
-        element.click();
-    }
-
     public void pageDown() {
         getDriver().findElement(By.xpath("/*")).sendKeys(Keys.PAGE_DOWN);
     }
 
-    protected void scrollTo(WebElement element) {
-        scrollElementIntoMiddleByJS(element);
-    }
-
-    private void scrollElementIntoMiddleByJS(WebElement element) {
+    protected void scrollElementIntoMiddle(WebElement element) {
         String scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
                 + "var elementTop = arguments[0].getBoundingClientRect().top;"
                 + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
@@ -115,19 +92,27 @@ public class AnyPage extends PageObject {
         ((JavascriptExecutor) getDriver()).executeScript(scrollElementIntoMiddle, element);
     }
 
+    // --- page actions ---
+    public void deeplinkTo(final String url) {
+        if (url == null || url.isEmpty()) {
+            throw new IllegalArgumentException("path is null or empty.");
+        }
+
+        getDriver().get(url);
+        final String currentUrl = getDriver().getCurrentUrl();
+
+        if (currentUrl == null || currentUrl.isEmpty()) {
+            throw new IllegalStateException("The current url is null or empty.");
+        }
+    }
+
     public void waitForPageToLoad() {
-        new WebDriverWait(getDriver(), getCustomTimeoutMsec()).until(
+        new WebDriverWait(getDriver(), getSerenityTimeoutSec()).until(
                 webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }
 
-    public void waitForPage(final String uriFraction) {
-        waitForPage(uriFraction, getCustomTimeoutMsec());
-    }
-
-    public void waitForPage(final String uriFraction, int seconds) {
-        waitForCondition()
-                .withTimeout(seconds, TimeUnit.MILLISECONDS)
-                .until(ExpectedConditions.urlContains(uriFraction));
+    public void waitForPageUrl(final String uriFraction) {
+        waitForCondition().until(ExpectedConditions.urlContains(uriFraction));
     }
 
     public boolean currentUrlEndsWith(final String uriFraction) {
@@ -138,27 +123,37 @@ public class AnyPage extends PageObject {
         return getDriver().getCurrentUrl().contains(uriFraction);
     }
 
-    public void pauseFor (int milliseconds) {
-        getClock().pauseFor(milliseconds);
+    // --- elements actions ---
+    protected boolean isElementPresent(By by) {
+        return !getDriver().findElements(by).isEmpty();
     }
 
     protected Select getSelectBy(By by) {
         return new Select(getDriver().findElement(by));
     }
 
-    protected boolean isCheckboxSet (WebElement checkbox) {
+    protected boolean isCheckboxSet(WebElement checkbox) {
         return checkbox.isSelected();
-    }
-
-    protected boolean isElementPresent(By by) {
-        return !getDriver().findElements(by).isEmpty();
     }
 
     protected String getAngularElementText(WebElement element) {
         return element.getAttribute("value");
     }
 
-    private static int getCustomTimeoutMsec() {
-        return TestData.getCustomTimeout();
+    private int getSerenityTimeoutSec() {
+        int defaultValue = 15;
+        return SystemEnvironmentVariables
+                .createEnvironmentVariables()
+                .getPropertyAsInteger(
+                        ThucydidesSystemProperty.WEBDRIVER_TIMEOUTS_IMPLICITLYWAIT, defaultValue);
+    }
+
+    public void pauseFor(int milliseconds) {
+        getClock().pauseFor(milliseconds);
+    }
+
+    private FluentWait<WebDriver> safeFluentWait() {
+        return new WebDriverWait(getDriver(), serenityTimeout)
+                .ignoring(StaleElementReferenceException.class);
     }
 }

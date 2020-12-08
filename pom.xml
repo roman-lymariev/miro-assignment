@@ -11,14 +11,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- Versions -->
-        <serenity.core.version>2.3.8</serenity.core.version>
-        <serenity.jbehave.version>1.46.0</serenity.jbehave.version>
+        <serenity.core.version>1.9.9</serenity.core.version>
+        <serenity.jbehave.version>1.39.0</serenity.jbehave.version>
         <parallel.tests>1</parallel.tests>
 
         <!-- Browser -->
         <webdriver.driver>chrome</webdriver.driver>
     </properties>
-
 
     <dependencies>
         <dependency>
@@ -37,11 +36,6 @@
             <version>4.13</version>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>23.2-jre</version>
-        </dependency>
-        <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>java-hamcrest</artifactId>
             <version>2.0.0.0</version>
@@ -53,7 +47,7 @@
             <version>3.0.0</version>
             <scope>test</scope>
         </dependency>
-        <!-- reporting dependencies -->
+        <!-- SerenityBDD JIRA integration dependencies -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -64,16 +58,15 @@
             <artifactId>commons-configuration</artifactId>
             <version>1.10</version>
         </dependency>
-        <!-- SerenityBDD JIRA integration dependencies -->
         <dependency>
             <groupId>org.openengsb.wrapped</groupId>
             <artifactId>com.atlassian.jira.rest.client</artifactId>
             <version>2.0.0-m31.w2</version>
         </dependency>
         <dependency>
-            <groupId>net.serenity-bdd</groupId>
-            <artifactId>serenity-jira-plugin</artifactId>
-            <version>1.12.0</version>
+            <groupId>com.googlecode.lambdaj</groupId>
+            <artifactId>lambdaj</artifactId>
+            <version>2.3.3</version>
         </dependency>
     </dependencies>
 
@@ -121,7 +114,7 @@
                     <argLine>-Xmx1024m</argLine>
                     <systemPropertyVariables>
                         <webdriver.driver>${webdriver.driver}</webdriver.driver>
-                   </systemPropertyVariables>
+                    </systemPropertyVariables>
                     <forkCount>${parallel.tests}</forkCount>
                     <reuseForks>false</reuseForks>
                     <parallel>suitesAndClasses</parallel>
@@ -158,7 +151,6 @@
         </plugins>
     </build>
 
-    <!-- Profiles help to switch smoothly between multiple test environments, if required -->
     <profiles>
         <profile>
             <id>default</id>

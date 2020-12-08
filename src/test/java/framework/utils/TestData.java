@@ -17,8 +17,6 @@ public class TestData {
     private static final String BOARD_VIEW_LINK = "board.viewlink";
     private static final String BOARD_ID = "board.id";
 
-    private static final String CUSTOM_TIMEOUT = "custom.timeout";
-
     //Paths
     public static String getLoginUri() {
         return get(LOGIN_URI);
@@ -59,11 +57,6 @@ public class TestData {
         return get(format(PASSWORD_TEMPLATE, personaName));
     }
 
-    public static int getCustomTimeout() {
-        return Integer.parseInt(get(CUSTOM_TIMEOUT));
-    }
-
-
     // --- Generated test data
     public static void setBoardViewLink(final String viewLink) {
         Variables.setVariable(BOARD_VIEW_LINK, viewLink);
@@ -80,7 +73,6 @@ public class TestData {
     public static String getBoardId() {
         return get(BOARD_ID);
     }
-
 
     // --- Reusable ----
     private static String get(final String varKey) {

@@ -17,7 +17,7 @@ public class SetupTeardownSteps {
 
     @AfterStories
     public static void teardown() {
-        //ApiSteps.deleteBoard();  TODO: make it work
+        //ApiSteps.deleteBoard();  //TODO: make it work
     }
 
     private static void initTestData() {

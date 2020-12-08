@@ -18,7 +18,6 @@ public class Variables {
      * Clears the variables and loads the global and environment variables.
      */
     public static void reset() {
-        clear();
         load(TESTDATA_PROPS);
     }
 

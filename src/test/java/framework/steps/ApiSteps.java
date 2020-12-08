@@ -40,7 +40,7 @@ public class ApiSteps {
     public static void deleteBoard() {
         Response response = given()
                 .header(getAuthHeader())
-                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
                 .when()
                 .post(getDeleteBoardRoute());
 
@@ -55,9 +55,7 @@ public class ApiSteps {
     }
 
     private static String getDeleteBoardRoute() {
-        return String
-                .format(DELETE_BOARD_ROUTE, TestData.getBoardId())
-                .replace("=", "%3D");
+        return String.format(DELETE_BOARD_ROUTE, TestData.getBoardId());
     }
 
     private CreateBoardBody getCreateBoardBody(final String boardName, final Access generalAccess, final TeamAccess teamAccess) {
