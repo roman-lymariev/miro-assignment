@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 The solution is OS-independent. You will need the following: 
 
-* [Java 9+](https://java.com/en/download/help/download_options.xml)
+* [Java 8+](https://java.com/en/download/help/download_options.xml)
 * [Maven](https://maven.apache.org/install.html)
 * [Chrome](https://www.google.com/chrome/)
 * [chromedriver.exe (aligned with Chrome version)](https://chromedriver.chromium.org/downloads)
@@ -61,10 +61,14 @@ Quick and simple, the margin of difference helps to handle different shapes of s
 - BrowserSteps and SetupTeardownSteps pretty much speak for itself.
 
 ## What would I improve next
+- consider switching to Applitools, local image comparison is memory hungry
+- otherwise, create a proper helper for aShot
 - implement Delete Board via API to cleanup after tests
-- implemented pick style for a Sticker
-- created a proper helper for aShot
+- implement picking "flat" style for a Sticker to avoid dealing with "sticker shadow"
 - implement encrypt passwords and tokens in .properties
+- consider removing SerenityBDD and switching to Selenide + jUnit or TestNG, if BDD is not used and HtmlReport is not so important. 
+The framework has some good features, but also a number of issues.
+
 
 ## 
 ## Author
