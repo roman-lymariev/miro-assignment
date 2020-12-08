@@ -1,5 +1,7 @@
 package framework.steps;
 
+import framework.model.Access;
+import framework.model.TeamAccess;
 import framework.model.pojo.*;
 import framework.utils.TestData;
 import io.restassured.http.ContentType;

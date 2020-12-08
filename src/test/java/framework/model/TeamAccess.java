@@ -1,4 +1,4 @@
-package framework.model.pojo;
+package framework.model;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 
@@ -8,23 +8,24 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum Access {
+public enum TeamAccess {
     PRIVATE("private"),
     VIEW("view"),
-    COMMENT("comment");
+    COMMENT("comment"),
+    EDIT("edit");
 
-    private static Map<String, Access> FORMAT_MAP = Stream
-            .of(Access.values())
+    private final static Map<String, TeamAccess> FORMAT_MAP = Stream
+            .of(TeamAccess.values())
             .collect(Collectors.toMap(s -> s.formatted, Function.identity()));
 
     private final String formatted;
 
-    Access(String formatted) {
+    TeamAccess(final String formatted) {
         this.formatted = formatted;
     }
 
     @JsonCreator
-    public static Access fromString(String string) {
-        return Optional.ofNullable(FORMAT_MAP.get(string)).orElseGet(() -> Access.valueOf(string));
+    public static TeamAccess fromString(final String string) {
+        return Optional.ofNullable(FORMAT_MAP.get(string)).orElseGet(() -> TeamAccess.valueOf(string));
     }
 }

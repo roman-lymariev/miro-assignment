@@ -1,5 +1,7 @@
 package framework.model.pojo;
 
+import framework.model.Access;
+import framework.model.TeamAccess;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -16,7 +18,7 @@ public class SharingPolicy {
     private TeamAccess teamAccess;
 
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private final Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Access getAccess() {
         return access;

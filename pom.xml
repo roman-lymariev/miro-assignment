@@ -13,8 +13,16 @@
         <!-- Versions -->
         <serenity.core.version>1.9.9</serenity.core.version>
         <serenity.jbehave.version>1.39.0</serenity.jbehave.version>
-        <parallel.tests>1</parallel.tests>
+        <junit.version>4.13</junit.version>
+        <hamcrest.version>1.3</hamcrest.version>
+        <restassured.version>3.0.0</restassured.version>
+        <ashot.version>1.5.3</ashot.version>
 
+        <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
+        <maven.failsafe.plugin.version>2.18.1</maven.failsafe.plugin.version>
+        <maven.surefire.plugin.version>2.18.1</maven.surefire.plugin.version>
+
+        <parallel.tests>1</parallel.tests>
         <!-- Browser -->
         <webdriver.driver>chrome</webdriver.driver>
     </properties>
@@ -33,24 +41,24 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13</version>
+            <version>${junit.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
+            <version>${hamcrest.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>3.0.0</version>
+            <version>${restassured.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>ru.yandex.qatools.ashot</groupId>
             <artifactId>ashot</artifactId>
-            <version>1.5.3</version>
+            <version>${ashot.version}</version>
         </dependency>
         <!-- SerenityBDD JIRA integration dependencies -->
         <dependency>
@@ -94,7 +102,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -103,7 +111,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>${maven.surefire.plugin.version}</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -111,7 +119,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>${maven.failsafe.plugin.version}</version>
                 <configuration>
                     <includes>
                         <include>**/story/*.java</include>
