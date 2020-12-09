@@ -13,6 +13,7 @@ And user Rick logs in
 And the board is opened by View Link
 When the user creates a sticker from the widget toolbar
 Then screenshot is taken
+And user navigates back
 
 Scenario: join the board as Morty and check the sticker is displayed
 
